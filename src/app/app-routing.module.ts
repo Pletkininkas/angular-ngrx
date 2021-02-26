@@ -6,11 +6,10 @@ import { PostDetailsComponent } from './post-details/post-details.component';
 import { PostGuardGuard } from './post-guard.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [PostGuardGuard] },
   {
     path: 'post/:id',
     component: PostDetailsComponent,
-    canActivate: [PostGuardGuard],
   },
   { path: 'new-post', component: CreatePostComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

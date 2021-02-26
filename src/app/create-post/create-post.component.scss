@@ -5,3 +5,13 @@ ul,
 li {
   list-style: none;
 }
+.error {
+  margin-top: 1%;
+  background-color: #ff000080;
+  font-weight: bold;
+}
+.success {
+  margin-top: 1%;
+  background-color: #4bb543;
+  font-weight: bold;
+}

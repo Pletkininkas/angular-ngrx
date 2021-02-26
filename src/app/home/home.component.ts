@@ -1,8 +1,14 @@
+import {
+  errorMessage,
+  selectIsPostsLoaded,
+  selectIsPostsLoading,
+  selectPosts,
+} from './../store/posts.selectors';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PostService } from '../post.service';
 import { Post } from '../shared/post';
+import { NgxSpinnerService } from 'ngx-bootstrap-spinner';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +16,18 @@ import { Post } from '../shared/post';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public posts: Observable<Post[]>;
+  public isPostsLoading$: Observable<boolean>;
+  public isPostsLoaded$: Observable<boolean>;
+  public posts$: Observable<Post[]>;
+  public error$: Observable<string>;
 
-  constructor(private postService: PostService) {}
+  constructor(private store: Store, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
-    this.posts = this.postService
-      .loadPosts()
-      .pipe(map((posts) => posts.reverse()));
+    this.isPostsLoading$ = this.store.select(selectIsPostsLoading);
+    this.isPostsLoaded$ = this.store.select(selectIsPostsLoaded);
+    this.posts$ = this.store.select(selectPosts);
+    this.error$ = this.store.select(errorMessage);
+    this.spinner.show();
   }
 }

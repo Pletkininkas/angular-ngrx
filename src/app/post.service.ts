@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, mapTo } from 'rxjs/operators';
+import { catchError, delay, mapTo } from 'rxjs/operators';
 import { Post } from './shared/post';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class PostService {
   constructor(private httpClient: HttpClient) {}
 
   loadPosts(): Observable<Post[]> {
-    return this.httpClient.get<Post[]>('/api/posts');
+    return this.httpClient.get<Post[]>('/api/posts').pipe(delay(1000));
   }
 
   validateName(name): Observable<boolean> {
@@ -24,12 +24,11 @@ export class PostService {
   }
 
   addPost(post: Post): Observable<Post> {
-    return this.httpClient.post<Post>('/api/posts', post);
+    return this.httpClient.post<Post>('/api/posts', post).pipe(delay(1000));
   }
 
   getPost(id): Observable<Post | undefined> {
     return this.httpClient.get<Post>(`/api/posts/${id}`);
-    // .pipe(map((posts) => posts.find((post) => post.id === id)));
   }
 
   addLike(post: Post): Observable<Post> {
